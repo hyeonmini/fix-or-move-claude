@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>새는 집, 고칠까 떠날까 — 서홍마을4단지 502호 리포트</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B222B; --surface:#10303B; --surface2:#0E2A34; --line:#1E4450;
+  --text:#E9F1F2; --muted:#7E9AA1; --dim:#54707A;
+  --hot:#FFA13B; --hot2:#FF5E3A; --cold:#7A66FF; --good:#3ECF8E;
+  --ironbow:linear-gradient(90deg,#150C38 0%,#5B2280 28%,#C93358 55%,#FF7F2A 78%,#FFD84D 100%);
+  --mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{background:var(--bg);color:var(--text);font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;line-height:1.6;letter-spacing:-0.01em}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+.num{font-family:var(--mono);letter-spacing:-0.02em}
+
+/* ---------- hero ---------- */
+.hero{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.18em;margin-bottom:18px}
+.hero h1{font-size:clamp(30px,7.4vw,46px);font-weight:800;line-height:1.18;letter-spacing:-0.035em}
+.hero h1 .hot{background:var(--ironbow);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin-top:16px;color:var(--muted);font-size:15px;max-width:52ch}
+.thermo{margin-top:32px}
+.thermo-bar{display:flex;height:52px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.thermo-bar div{flex:1;display:flex;align-items:flex-end;padding:6px 0 5px 8px;font-size:10px;font-family:var(--mono);color:rgba(255,255,255,.85);white-space:nowrap;overflow:hidden}
+.thermo-scale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:6px}
+
+/* ---------- sections ---------- */
+section{padding:48px 0;border-bottom:1px solid var(--line)}
+.sec-label{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
+.sec-label .tag{font-family:var(--mono);font-size:11px;color:var(--hot);letter-spacing:.14em}
+h2{font-size:clamp(21px,5vw,26px);font-weight:800;letter-spacing:-0.03em;margin-bottom:10px}
+.lede{color:var(--muted);font-size:14.5px;margin-bottom:26px;max-width:56ch}
+.lede strong{color:var(--text);font-weight:600}
+
+/* ---------- diagnosis bars ---------- */
+.bars{display:flex;flex-direction:column;gap:11px}
+.bar-row{display:grid;grid-template-columns:64px 1fr 58px;gap:12px;align-items:center;font-size:13px}
+.bar-row .name{color:var(--muted)}
+.bar-track{height:14px;background:var(--surface2);border-radius:7px;position:relative;overflow:visible}
+.bar-fill{height:100%;border-radius:7px;background:var(--ironbow);background-size:var(--full,300px) 100%;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.bar-limit{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--text);opacity:.55}
+.bar-limit::after{content:'기준 0.28';position:absolute;top:-16px;left:-16px;font-family:var(--mono);font-size:9px;color:var(--dim);white-space:nowrap}
+.bar-row .val{font-family:var(--mono);font-size:12.5px;text-align:right;color:var(--text)}
+.bar-row.over .val{color:var(--hot2);font-weight:600}
+.callout{margin-top:28px;padding:18px 20px;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--hot);border-radius:10px;font-size:14px}
+.callout .big{font-family:var(--mono);font-size:30px;font-weight:600;color:var(--hot);line-height:1.1;display:block;margin-bottom:6px}
+.callout p{color:var(--muted)}
+.callout p b{color:var(--text);font-weight:600}
+
+/* ---------- heat efficiency ---------- */
+.heat{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:24px}
+.heat div{background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:12px 8px;text-align:center}
+.heat .r{font-size:11px;color:var(--muted)}
+.heat .p{font-family:var(--mono);font-size:17px;font-weight:600;margin-top:2px}
+.heat .p.h{color:var(--hot2)}.heat .p.m{color:var(--hot)}.heat .p.ok{color:var(--good)}
+
+/* ---------- controls ---------- */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px 20px;margin-top:8px}
+.ctl{margin-bottom:22px}
+.ctl:last-child{margin-bottom:0}
+.ctl-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;font-size:13.5px}
+.ctl-head .v{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--hot)}
+input[type=range]{width:100%;height:28px;-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--cold),var(--hot2))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--text);margin-top:-8px;border:3px solid var(--bg);box-shadow:0 0 0 1px var(--line)}
+input[type=range]:focus-visible{outline:2px solid var(--hot);outline-offset:4px;border-radius:6px}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;padding:9px 4px;border-radius:8px;border:1px solid var(--line);background:var(--surface2);color:var(--muted);font-size:13px;font-family:inherit;cursor:pointer}
+.seg button.on{background:var(--text);color:var(--bg);font-weight:700;border-color:var(--text)}
+.seg button:focus-visible{outline:2px solid var(--hot);outline-offset:2px}
+
+.readout{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:22px}
+.readout .cell{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:14px}
+.readout .k{font-size:11.5px;color:var(--muted)}
+.readout .n{font-family:var(--mono);font-size:20px;font-weight:600;margin-top:3px}
+.readout .n small{font-size:12px;color:var(--muted);font-weight:400}
+.readout .n.hot{color:var(--hot)}.readout .n.good{color:var(--good)}
+.note{font-size:12.5px;color:var(--dim);margin-top:14px;line-height:1.55}
+
+/* ---------- logistics ---------- */
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.opt-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.opt-head h3{font-size:15px;font-weight:700}
+.opt-head .cost{font-family:var(--mono);font-size:13.5px;color:var(--hot);white-space:nowrap}
+.opt p{font-size:13px;color:var(--muted);margin-top:6px}
+.opt .risk{font-size:12px;margin-top:8px;color:var(--hot2)}
+.opt .risk.ok{color:var(--good)}
+.opt.pick{border-color:var(--hot);box-shadow:0 0 0 1px var(--hot) inset}
+.opt .badge{font-family:var(--mono);font-size:10px;color:var(--hot);letter-spacing:.12em;display:block;margin-bottom:4px}
+
+/* ---------- verdict ---------- */
+.verdict{margin-top:24px;border-radius:14px;padding:24px 22px;border:1px solid var(--line);background:var(--surface);position:relative;overflow:hidden}
+.verdict::before{content:'';position:absolute;inset:0 0 auto 0;height:4px;background:var(--ironbow)}
+.verdict .v-tag{font-family:var(--mono);font-size:11px;letter-spacing:.15em;color:var(--muted)}
+.verdict h3{font-size:22px;font-weight:800;letter-spacing:-0.02em;margin:6px 0 8px;color:var(--hot)}
+.verdict p{font-size:14px;color:var(--muted)}
+.verdict p b{color:var(--text)}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}
+.vs .side{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:14px}
+.vs .side.win{border-color:var(--good)}
+.vs .t{font-size:12px;color:var(--muted)}
+.vs .amt{font-family:var(--mono);font-size:19px;font-weight:600;margin-top:3px}
+.vs .sub{font-size:11px;color:var(--dim);margin-top:5px;line-height:1.5}
+
+/* ---------- checklist ---------- */
+.steps{counter-reset:s;display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:15px 0;border-bottom:1px dashed var(--line)}
+.step:last-child{border-bottom:none}
+.step::before{counter-increment:s;content:counter(s,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--hot);padding-top:3px}
+.step h4{font-size:14.5px;font-weight:700}
+.step p{font-size:13px;color:var(--muted);margin-top:3px}
+.step p a{color:var(--hot);text-decoration:none;border-bottom:1px solid rgba(255,161,59,.4)}
+
+footer{padding:36px 0 56px;font-size:11.5px;color:var(--dim);line-height:1.7}
+@media(max-width:480px){.heat{grid-template-columns:repeat(2,1fr)}.vs{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Suji Seohong Maeul 4 · 403-502 · 2004 · 32py · Feb 2026 Report</div>
+    <h1>새는 집,<br><span class="hot">고칠까, 떠날까</span></h1>
+    <p>하임랩 열화상 진단 + 그린리모델링 지원사업 + 우리 대출 조건을 한 화면에. 결론은 아래 계산기가 아니라 "몇 년 더 살 건지"가 정합니다.</p>
+    <div class="thermo" aria-label="세대 부위별 벽체 표면온도">
+      <div class="thermo-bar">
+        <div style="background:#FF8A2A;color:#2b1400">침실1 22.9°</div>
+        <div style="background:#E85C3F">침실2 19.6°</div>
+        <div style="background:#D93A5B">침실3 17.9°</div>
+        <div style="background:#C93358">거실 17.6°</div>
+        <div style="background:#3D1B6E">발코니 −1.2°</div>
+        <div style="background:#1E0F4A">발코니 −2.7°</div>
+      </div>
+      <div class="thermo-scale"><span>COLD −2.7°C</span><span>벽체 표면온도 (외기 −7.2°C 측정일)</span><span>HOT 22.9°C</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="diag">
+  <div class="wrap">
+    <div class="sec-label"><span class="tag">01 — DIAGNOSIS</span></div>
+    <h2>벽은 최우수, 그런데 왜 춥고 비쌀까</h2>
+    <p class="lede">TDR(결로 위험 지표, <strong>낮을수록 좋음</strong>)은 실내 전 구역이 기준 0.28을 크게 밑돌아요. 문제는 벽 등급이 아니라 <strong>20년 된 창호의 틈새 바람</strong>과 <strong>침실1 국소 열손실</strong> — 그리고 그걸 보일러가 돈으로 메꾸고 있다는 것.</p>
+
+    <div class="bars" aria-label="구역별 TDR 측정값">
+      <div class="bar-row"><span class="name">거실</span><div class="bar-track"><div class="bar-fill" data-w="3.7"></div><span class="bar-limit" style="left:34.6%"></span></div><span class="val num">0.03</span></div>
+      <div class="bar-row"><span class="name">침실1</span><div class="bar-track"><div class="bar-fill" data-w="9.9"></div><span class="bar-limit" style="left:34.6%"></span></div><span class="val num">0.08</span></div>
+      <div class="bar-row"><span class="name">침실2</span><div class="bar-track"><div class="bar-fill" data-w="9.9"></div><span class="bar-limit" style="left:34.6%"></span></div><span class="val num">0.08</span></div>
+      <div class="bar-row"><span class="name">침실3</span><div class="bar-track"><div class="bar-fill" data-w="14.8"></div><span class="bar-limit" style="left:34.6%"></span></div><span class="val num">0.12</span></div>
+      <div class="bar-row over"><span class="name">발코니1</span><div class="bar-track"><div class="bar-fill" data-w="93.8"></div><span class="bar-limit" style="left:34.6%"></span></div><span class="val num">0.76</span></div>
+      <div class="bar-row over"><span class="name">발코니2</span><div class="bar-track"><div class="bar-fill" data-w="100"></div><span class="bar-limit" style="left:34.6%"></span></div><span class="val num">0.81</span></div>
+      <div class="bar-row over"><span class="name">발코니3</span><div class="bar-track"><div class="bar-fill" data-w="90.1"></div><span class="bar-limit" style="left:34.6%"></span></div><span class="val num">0.73</span></div>
+    </div>
+
+    <div class="callout">
+      <span class="big num">283%</span>
+      <p>침실1의 방열량은 기준(44.9W/㎡)의 <b>2.8배(115.6W/㎡)</b>. 보고서는 "난방 양호"라 적었지만, 뒤집으면 <b>침실1이 새는 열을 난방으로 계속 메꾸는 중</b>이라는 뜻. 같은 동 난방비 1위의 정체.</p>
+      <div class="heat">
+        <div><div class="r">침실1</div><div class="p h num">283%</div></div>
+        <div><div class="r">거실</div><div class="p h num">221%</div></div>
+        <div><div class="r">침실2</div><div class="p m num">159%</div></div>
+        <div><div class="r">침실3</div><div class="p ok num">85%</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cost">
+  <div class="wrap">
+    <div class="sec-label"><span class="tag">02 — SCOPE & COST</span></div>
+    <h2>공사 범위와 예상 견적</h2>
+    <p class="lede">계획: <strong>침실1 벽 단열(PF보드 110T) + 거의 전체 창호(로이 이중창)</strong>. 하임랩 부분 견적(침실1+발코니1 = 1,100만)을 기준점으로 전체 창호까지 확장한 추정 범위예요. 슬라이더로 시나리오를 잡아보세요.</p>
+    <div class="panel">
+      <div class="ctl">
+        <div class="ctl-head"><span>공사비 (VAT 포함 가정)</span><span class="v num" id="costV">2,500만원</span></div>
+        <input type="range" id="costR" min="1500" max="3500" step="50" value="2500" aria-label="공사비">
+      </div>
+      <div class="ctl">
+        <div class="ctl-head"><span>부대비용 — 이사 · 단기임대 · 청소</span><span class="v num" id="sideV">350만원</span></div>
+        <input type="range" id="sideR" min="150" max="600" step="10" value="350" aria-label="부대비용">
+      </div>
+      <div class="readout">
+        <div class="cell"><div class="k">총 프로젝트</div><div class="n num" id="totV">2,850<small> 만원</small></div></div>
+        <div class="cell"><div class="k">참고: 하임랩 부분견적</div><div class="n num">1,100<small> 만원 (침실1+발1)</small></div></div>
+      </div>
+      <p class="note">창호는 유리 사양(로이 복층 ↔ 삼중)에 따라 ±30% 움직여요. 서홍마을 시공 사례 있는 업체 포함, 그린리모델링 등록 사업자로 2~3곳 비교견적이 기본.</p>
+    </div>
+  </div>
+</section>
+
+<section id="gr">
+  <div class="wrap">
+    <div class="sec-label"><span class="tag">03 — GREEN REMODELING</span></div>
+    <h2>그린리모델링: 깎아주는 게 아니라, 이자를 없애주는 것</h2>
+    <p class="lede">공사비는 전액 대출로 조달하고 <strong>이자 4.5~5.5%p를 정부가 대신 부담</strong>. 2016년 이전 사용승인 주택 대상(2004년 준공 = 해당), 예산 80억 소진 시 마감 — 선착순 성격. <strong>반드시 공사 계약 전에 신청.</strong></p>
+    <div class="panel">
+      <div class="ctl">
+        <div class="ctl-head"><span>상환 기간</span></div>
+        <div class="seg" id="termSeg" role="group" aria-label="상환 기간">
+          <button data-v="36">36개월</button><button data-v="60" class="on">60개월</button><button data-v="84">84개월</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <div class="ctl-head"><span>이자 지원율 (성능개선 30%↑ 또는 우대요건 시 5.5%)</span></div>
+        <div class="seg" id="rateSeg" role="group" aria-label="이자 지원율">
+          <button data-v="4.5" class="on">4.5%p</button><button data-v="5.5">5.5%p</button>
+        </div>
+      </div>
+      <div class="readout">
+        <div class="cell"><div class="k">월 상환액 (원금 분할)</div><div class="n hot num" id="grMonth">—</div></div>
+        <div class="cell"><div class="k">정부가 대신 내는 이자 총액</div><div class="n good num" id="grSave">—</div></div>
+      </div>
+      <p class="note">대출금리 5.0% 가정 · 원금균등 기준 근사치. 지원율 5.5%면 체감 금리 ≈ 0%. 주의: 대출 실행은 <b style="color:var(--text)">공사 완료 후</b>라 공사 중 계약금·중도금은 브리지 자금이 필요할 수 있어요 — 컨설팅에서 1순위로 확인.</p>
+    </div>
+  </div>
+</section>
+
+<section id="move">
+  <div class="wrap">
+    <div class="sec-label"><span class="tag">04 — LOGISTICS</span></div>
+    <h2>공사 1주, 몸과 짐은 어디로</h2>
+    <p class="lede">공정: 반출 1일 → 창호+단열+도배 5일+ → 입주청소 → 반입 1일. 삼삼엠투는 <strong>공정표 확정 후, 8~9일 여유</strong>로.</p>
+    <div class="opts">
+      <div class="opt pick">
+        <span class="badge">PLAN A — 안전빵</span>
+        <div class="opt-head"><h3>보관이사 + 단기임대(몸만)</h3><span class="cost num">이사 150~250만 + 임대 90만</span></div>
+        <p>살림은 컨테이너 보관, 캐리어 2~3개만 들고 단기임대로. 공사가 밀려도 "며칠 더 보관"이 쉬움.</p>
+        <p class="risk ok">리스크 낮음 — 일정 지연에 유연</p>
+      </div>
+      <div class="opt">
+        <span class="badge">PLAN B — 아이디어</span>
+        <div class="opt-head"><h3>신축 빈집 단기임대에 짐까지 전부</h3><span class="cost num">왕복이사 + 임대 90만 (보관료 절약)</span></div>
+        <p>숙소+창고를 한 번에. 단, 호스트가 이삿짐 전체 반입을 허용해야 성립 — 예약 전 서면 확인 필수.</p>
+        <p class="risk">리스크 — 신축 흠집 배상 · 연장 불가 시 갈 곳 없음</p>
+      </div>
+      <div class="opt">
+        <span class="badge">PLAN C — 비추</span>
+        <div class="opt-head"><h3>짐 한 방에 몰기 (거주 유지)</h3><span class="cost num">0원</span></div>
+        <p>전체 창호 교체라 안 건드는 방이 없음. 분진 + 매일 짐 옮기기 = 공기 지연.</p>
+        <p class="risk">리스크 높음 — 이번 공사 범위엔 부적합</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="decide">
+  <div class="wrap">
+    <div class="sec-label"><span class="tag">05 — THE DECISION</span></div>
+    <h2>고칠까, 팔까</h2>
+    <p class="lede">핵심 자산은 집만이 아니라 <strong>주담대 3.2억 · 30년 · 2.4%</strong> — 지금 시장(신규 ~4%)에서 다시 못 받는 조건. 팔면 이 대출을 반납해요. 매수 6.71억 → 시세 11억, 12억 이하 1주택 비과세 전제.</p>
+    <div class="panel">
+      <div class="ctl">
+        <div class="ctl-head"><span>이 집에서 몇 년 더 살 계획?</span><span class="v num" id="yrV">5년</span></div>
+        <input type="range" id="yrR" min="1" max="10" step="1" value="5" aria-label="거주 예정 년수">
+      </div>
+      <div class="vs">
+        <div class="side" id="sideFix">
+          <div class="t">고치고 산다</div>
+          <div class="amt num" id="fixAmt">—</div>
+          <div class="sub">공사+부대 총액. GR로 이자 ≈ 0, 난방비 절감은 덤(연 수십만 추정)</div>
+        </div>
+        <div class="side" id="sideMove">
+          <div class="t">팔고 옮긴다</div>
+          <div class="amt num" id="moveAmt">—</div>
+          <div class="sub">중개 ~1,000만 + 취득세 ~3,000만 + 이사비 + <b>2.4%→4% 금리손실 연 500만 × 거주년수</b></div>
+        </div>
+      </div>
+      <div class="verdict" id="verdict" aria-live="polite">
+        <span class="v-tag">VERDICT</span>
+        <h3 id="vTitle">—</h3>
+        <p id="vBody">—</p>
+      </div>
+      <p class="note">단순 비교 모형이에요. 갈아탈 집의 상승 여력, 학군·직주 같은 비화폐 가치는 계산 밖 — 그건 지영님과의 대화 몫. 매도 결정 전 세무 확인은 필수.</p>
+    </div>
+  </div>
+</section>
+
+<section id="todo">
+  <div class="wrap">
+    <div class="sec-label"><span class="tag">06 — NEXT ACTIONS</span></div>
+    <h2>순서대로 하면 되는 것</h2>
+    <div class="steps">
+      <div class="step"><div><h4>거주 년수 합의</h4><p>지영님과 "몇 년 더 살지"부터. 위 계산기의 유일한 입력값이자 모든 결정의 분기점.</p></div></div>
+      <div class="step"><div><h4>GR 무료 컨설팅 신청</h4><p>창조센터 <a href="https://www.greenremodeling.or.kr" rel="noopener">greenremodeling.or.kr</a> · 055-771-4819. 공사비·에너지 시뮬레이션 무료 + 서류 지원. 자금 흐름(완료 후 대출 실행) 1순위 질문.</p></div></div>
+      <div class="step"><div><h4>비교견적 2~3곳</h4><p>GR 등록 사업자 + 서홍마을 시공 사례 업체. 창호는 에너지효율 1등급 명시 요구. 하임랩이면 등록 여부부터 확인.</p></div></div>
+      <div class="step"><div><h4>관리비 고지서로 난방 사용량 기록</h4><p>같은 평형 평균 대비 Gcal 차이 = 공사 효과 검증 기준선이자 회수기간 계산 근거.</p></div></div>
+      <div class="step"><div><h4>공정표 확정 → 숙소·이사 예약</h4><p>계약 전 GR 사업신청이 먼저. 그다음 삼삼엠투(8~9일) + 보관이사 견적. Plan B면 호스트 서면 허락부터.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    근거: HEIMLAB 체크 결과 보고서(2026.02 점검) · 국토교통부 2026 민간건축물 그린리모델링 이자지원사업 공고 · 본인 대출 조건.<br>
+    견적·세금·지원 조건은 추정/요약이며 실제와 다를 수 있음. 계약 전 실측 견적과 세무 확인 필수. Built with Claude.
+  </div>
+</footer>
+
+<script>
+const fmt = n => n.toLocaleString('ko-KR');
+
+/* TDR bars animate in */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.style.width = e.target.dataset.w + '%'; io.unobserve(e.target); }
+}), { threshold: .4 });
+document.querySelectorAll('.bar-fill').forEach(el => { el.style.width = '0%'; io.observe(el); });
+
+/* cost sliders */
+const costR = document.getElementById('costR'), sideR = document.getElementById('sideR');
+function cost() {
+  const c = +costR.value, s = +sideR.value;
+  document.getElementById('costV').textContent = fmt(c) + '만원';
+  document.getElementById('sideV').textContent = fmt(s) + '만원';
+  document.getElementById('totV').innerHTML = fmt(c + s) + '<small> 만원</small>';
+  gr(); decide();
+}
+costR.addEventListener('input', cost); sideR.addEventListener('input', cost);
+
+/* segmented controls */
+function seg(id, cb) {
+  const el = document.getElementById(id);
+  el.addEventListener('click', ev => {
+    const b = ev.target.closest('button'); if (!b) return;
+    el.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+    b.classList.add('on'); cb();
+  });
+  return () => +el.querySelector('.on').dataset.v;
+}
+const term = seg('termSeg', () => gr());
+const rate = seg('rateSeg', () => gr());
+
+/* green remodeling calc: 원금균등, 대출금리 5% 가정 */
+function gr() {
+  const P = +costR.value, m = term(), sub = rate();
+  const loanRate = 5.0, myRate = Math.max(0, loanRate - sub) / 100 / 12;
+  const principal = P / m;
+  const firstMonth = principal + P * myRate; // 첫 달 (가장 큼)
+  const totalInt = P * (loanRate / 100 / 12) * (m + 1) / 2;
+  const myInt = P * myRate * (m + 1) / 2;
+  document.getElementById('grMonth').innerHTML = '~' + fmt(Math.round(firstMonth)) + '<small> 만원/월</small>';
+  document.getElementById('grSave').innerHTML = fmt(Math.round(totalInt - myInt)) + '<small> 만원</small>';
+}
+
+/* decision calc */
+const yrR = document.getElementById('yrR');
+function decide() {
+  const y = +yrR.value;
+  const fix = +costR.value + +sideR.value;
+  const moveBase = 4300;            // 중개+취득세+이사 근사
+  const rateLoss = 500 * y;         // 2.4%→4% 연 500만
+  const move = moveBase + rateLoss;
+  document.getElementById('yrV').textContent = y + '년';
+  document.getElementById('fixAmt').innerHTML = fmt(fix) + '<small> 만원</small>';
+  document.getElementById('moveAmt').innerHTML = fmt(move) + '<small> 만원+</small>';
+  const sf = document.getElementById('sideFix'), sm = document.getElementById('sideMove');
+  sf.classList.toggle('win', fix <= move); sm.classList.toggle('win', move < fix);
+  const t = document.getElementById('vTitle'), b = document.getElementById('vBody');
+  if (y >= 5) {
+    t.textContent = '고치는 쪽이 압도적';
+    b.innerHTML = y + '년 거주면 이사 비용(' + fmt(move) + '만+)이 공사(' + fmt(fix) + '만)의 ' + (move / fix).toFixed(1) + '배. 2.4% 대출을 지키는 것만으로 매년 500만원을 버는 셈. <b>풀 패키지(창호 전체 + 침실1 단열) + GR 진행.</b>';
+  } else if (y >= 3) {
+    t.textContent = '창호만, 절충안';
+    b.innerHTML = '애매한 구간. 단열·창호 공사비는 매도가에 거의 반영이 안 되니 투자 최소화 — <b>추위·난방비의 몸통인 창호만</b> 하고, 벽 단열은 보류. 매도 타이밍은 열어두기.';
+  } else {
+    t.textContent = '최소 보수 후 매도 준비';
+    b.innerHTML = y + '년 안에 나갈 거면 공사비는 회수 못 하는 돈. 문풍지·커튼·분배기 조정 같은 <b>무비용 보수로 한 겨울 버티고</b>, 비과세 요건(보유·거주 2년) 확인 후 시장 보기.';
+  }
+}
+yrR.addEventListener('input', decide);
+
+cost();
+</script>
+</body>
+</html>
